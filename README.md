@@ -11,24 +11,20 @@ and access the following URL:
 
 `http://localhost:8080/`
 
-Execute Rest Endpoints using Curl
--------------------
-'curl -X GET localhost:8080/' would list the cakes currently in the system presented mapped automatically to a Cake entity
-'curl -X POST localhost:8080/ {"title":"Chocolate cake","description":"Choco lovely cake", "image":"http://imageurl"}' would allow a human to add a new cake to the server.
-'curl -X GET localhost:8080/cakes' would use Spring Rest Template to  download a list of the cakes currently in the system as JSON data
-'curl -X POST localhost:8080/cakes {"title":"Blueberry cake","description":"BlueBerry lovely cake", "image":"http://imageurl"}' would allow a human to add cakes to the server.
+*** Login using the Okta credentials below
 
-All access to the app requires an authentication.
-Oauth2.0 (AKA Security) is enabled
------------------------------------
+###All access to the app requires an authentication.
+###Oauth2.0 (AKA Security) is enabled
+
 
 CakeManagerApplication includes a static configuration subclass called OktaOAuth2WebSecurityConfigurerAdapter which is used to adobt Oauth 2.0 Security
 
-Change the follow code:
+#### Change the follow code block to use JWT token:
+
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
 			http.authorizeRequests().anyRequest().permitAll()
-					.and()..oauth2Login();
+					.and().oauth2Login();
 		}
 To
 
@@ -38,27 +34,33 @@ To
 					.and().oauth2ResourceServer().jwt();
 		}
 
-However you would need need to generate a bearer token using OPEN ID CONNECT DEBUGGER.
+However you would need to generate a bearer token using OPEN ID CONNECT DEBUGGER.
 As this is a demo account, the grant type available was Authorisation code
 
 To login to okta and find the client credentials
 ------------------------------------------------
-https://dev-2709008.okta.com
-Username - williams@wadso.co.uk
-Okta Password - OktaW@dso2o2o
+
+`https://dev-2709008.okta.com`
+
+`Username - williams@wadso.co.uk`
+
+`Okta Password - OktaW@dso2o2o`
 
 Then Navigate to Applications --> General
 
-You can also find the client credentials in the application properties file (As this is a sample project, I didnt mind exposing this data)
+You can also find the client credentials in the application properties file (As this is a sample project, I didn't mind exposing this data)
 
 
 Dockerisation
 -------------------
 To dockerize this application, a file named Dockerfile is created with the following content:
 
-FROM openjdk:8-jdk-alpine
-MAINTAINER waracle.com
-COPY target/cake-manager-1.0.0.jar cake-manager-1.0.0.jar
-ENTRYPOINT ["java","-jar","/cake-manager-1.0.0.jar"]
+`FROM openjdk:8-jdk-alpine`
+
+`MAINTAINER waracle.com`
+
+`COPY target/cake-manager-1.0.0.jar cake-manager-1.0.0.jar`
+
+`ENTRYPOINT ["java","-jar","/cake-manager-1.0.0.jar"]`
 
 To create an image from the Dockerfile, we have to run ‘docker-compose up --build',

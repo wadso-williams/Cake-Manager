@@ -36,7 +36,7 @@ public class CakeController {
   }
 
   @PreAuthorize("permitAll()")
-  @GetMapping(value = "/cakes", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(value = "/cakes", produces = MediaType.APPLICATION_JSON_VALUE)
   public String downloadAllCakes() {
     return cakeService.downloadCakes();
   }
