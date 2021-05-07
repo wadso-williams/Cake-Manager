@@ -30,8 +30,8 @@ public class CakeManagerApplication {
 
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
-			http.antMatcher("/**")
-					.authorizeRequests()
+			http.authorizeRequests()
+					.antMatchers("/health").permitAll()
 					.anyRequest().authenticated()
 					.and().oauth2Login();
 		}
