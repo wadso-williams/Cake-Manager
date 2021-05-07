@@ -1,0 +1,66 @@
+Fix first priority 404 status error code on the existing project
+==============================================
+
+In order to use @WebServlet, I had to set the web app to Servlet 3.0 or newer
+Therefore, I added the web app version 4.0 to the web-xml file.
+
+I added a jetty version <version>10.0.0</version> to the jetty maven plugin
+
+This ensures that Jetty does not use the latest version 11 which is Jakarta EE9 targeted.
+Apparently during the step from Java/Jakarta EE8 to Jakarta EE9, all javax.* packages have been renamed to jakarta.* packages.
+Meaning there is no backwards compatibility anymore since Jakarta EE9.
+
+After setting up the above, I was now able to access the url (http://localhost:8282/cakes) without any errors on the old project.
+
+PROJECT CHANGES
+=================
+
+1 - Changed project to Spring Boot Project (I mean who wouldn't want to use Spring boot)
+2 - Introduced the Hibernate h2 in memory database plus a repository to hold the existing data
+  -Initialising the In Memory Database with Data
+   ----------------------------------------------
+   Spring Boot will run ALL CommandLineRunner beans once the application context is loaded.
+   Therefore this runs the LoadDatabase class and pre-populates the DB with the existing system cake data/.
+
+3 - Separated the business logic into a service layer which can be used by our rest controller. By doing this separation, we
+can focus our test on the service layer without the need to test indepthly the controllers.
+
+4 - CakeEntity Changes
+--------------------
+
+I have removed the redundant attribute in the columns for the two fields (description, image)
+unique=false
+
+Renamed the following column names according to the fields
+employeeId = cakeId (Changed the type from Integer to Long)
+EMAIL = TITLE
+FIRST_NAME = DESC
+LAST_NAME = IMAGE
+
+*Also the downloaded data returns duplicate cakes data. So filtered the data before adding to the in memory database.
+*Introduced hash codes and equals method to allow Stream distinct() function to remove duplicate cakes before loading into DB.
+
+
+
+5 - The Controller Package Scanner acts as a marker interface to controllers to be automatically scanned by Spring.
+Added Spring actuator to provide endpoints for monitoring and managing the application.
+
+6 - Introduced a Controller Advice for exception handling. Controller advice can be expanded on.
+
+7 - Oauth2.0 (AKA Security)
+    -----------
+    Introduced Oauth 2.0 using Okta CLI
+    ## Make sure Homebrew is installed
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+
+    ## Then:
+    brew install --cask oktadeveloper/tap/okta
+    Installed Okta CLI and then signed up for a new okta account.
+
+    To Integrate Okta to the spring boot app,
+    A new dependency was added -
+    <dependency>
+        <groupId>com.okta.spring</groupId>
+        <artifactId>okta-spring-boot-starter</artifactId>
+        <version>2.0.1</version>
+    </dependency>

@@ -1,0 +1,15 @@
+version: '2'
+services:
+  cake-manager:
+    container_name: cake-manager
+    build:
+      context: cake-manager
+      dockerfile: Dockerfile
+    image: cake-manager:latest
+    ports:
+      - 18888:8888
+    networks:
+      - spring-cloud-network
+networks:
+  spring-cloud-network:
+    driver: bridge
