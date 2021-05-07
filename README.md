@@ -50,6 +50,24 @@ Then Navigate to Applications --> General
 
 You can also find the client credentials in the application properties file (As this is a sample project, I didn't mind exposing this data)
 
+Execute Rest Endpoints using Curl or Postman
+----------------------------------------------
+`curl -X GET localhost:8080/`
+
+would list the cakes currently in the system presented mapped automatically to a Cake entity
+
+`curl -X POST localhost:8080/ {"title":"Chocolate cake","description":"Choco lovely cake", "image":"http://imageurl"}`
+
+would allow a human to add a new cake to the server.
+
+`curl -X GET localhost:8080/cakes`
+
+would use Spring Rest Template to  download a list of the cakes currently in the system as JSON data
+
+`curl -X POST localhost:8080/cakes {"title":"Blueberry cake","description":"BlueBerry lovely cake", "image":"http://imageurl"}`
+
+would allow a human to add cakes to the server.
+
 
 Dockerisation
 -------------------
