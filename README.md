@@ -82,11 +82,18 @@ POST `http://localhost:8080/cakes`
 In the Body tab of postman, select raw and select JSON Media Type on Postman
 
 ```
-{
-    "title": "Chocolate Cake",
-    "desc": "Choco cake mmmm yummy",
+[
+    {
+    "title": "Peanut Cake",
+    "desc": "Peanut cake mmmm yummy",
     "image": "http://www.bbcgoodfood.com/sites/bbcgoodfood.com/files/recipe_images/recipe-image-legacy-id--1001468_10.jpg"
-}
+ },
+ {
+    "title": "Butter Cake",
+    "desc": "Butter cake mmmm yummy",
+    "image": "http://www.bbcgoodfood.com/sites/bbcgoodfood.com/files/recipe_images/recipe-image-legacy-id--1001468_10.jpg"
+ }
+]
 ```
 
 would allow a human to add cakes to the server.
