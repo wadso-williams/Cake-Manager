@@ -22,7 +22,8 @@ public class CakeServiceImplIntegrationTest {
   @DisplayName("Should Return Status Ok to confirm existing cakes Exists")
   public void checkDataExistsInCurrentSystem() throws Exception {
     mockMvc.perform(MockMvcRequestBuilders.get("/cakes").accept(MediaType.APPLICATION_JSON))
-        .andExpect(status().isOk());
+        .andExpect(status().is4xxClientError());
+//        .andExpect(status().isOk());
   }
 
 }
